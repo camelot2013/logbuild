@@ -1,0 +1,27 @@
+{
+    "log_out_dir": "D:/tmp/",
+    "何腾蛟": {
+        "company": "成都思瑞奇信息产业有限公司",
+        "station": "开发",
+        "level": "专家级",
+        "MonthlyUnitPrice": 45000
+    },
+    "杨浩": {
+        "company": "成都思瑞奇信息产业有限公司",
+        "station": "开发",
+        "level": "专家级",
+        "MonthlyUnitPrice": 45000
+    },
+    "李悦": {
+        "company": "成都思瑞奇信息产业有限公司",
+        "station": "开发",
+        "level": "专家级",
+        "MonthlyUnitPrice": 45000
+    },
+    "张磊": {
+        "company": "成都思瑞奇信息产业有限公司",
+        "station": "开发",
+        "level": "专家级",
+        "MonthlyUnitPrice": 45000
+    }
+}
