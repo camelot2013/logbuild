@@ -166,7 +166,7 @@ def create_season_log(season_log: dict):
                 __set_cell_font(cell, font_format={'size': 14, 'name': '仿宋'})
             else:
                 if col_idx == 0:
-                    __set_cell_font(cell, font_param={'size': 12, 'name': '仿宋'})
+                    __set_cell_font(cell, font_format={'size': 12, 'name': '仿宋'})
                     table.rows[row_idx].cells[0].width = Cm(2.89)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
                 elif col_idx == 1:
