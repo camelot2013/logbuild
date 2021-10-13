@@ -18,6 +18,12 @@
         "level": "专家级",
         "MonthlyUnitPrice": 45000
     },
+    "陈健科": {
+        "company": "成都思瑞奇信息产业有限公司",
+        "station": "开发",
+        "level": "中级一档",
+        "MonthlyUnitPrice": 22000
+    },
     "张磊": {
         "company": "成都思瑞奇信息产业有限公司",
         "station": "开发",

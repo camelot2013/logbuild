@@ -124,7 +124,6 @@ def create_season_log(season_log: dict):
     table.rows[0].cells[2].width = Cm(8.86)
     table.rows[0].cells[3].width = Cm(2.45)
     tot_workload = 0
-    subtotal_workload = 0
     tmp_demand_no = ''
     demand_idx = 1
     for log in season_log['logs']:
@@ -145,7 +144,10 @@ def create_season_log(season_log: dict):
                 run = p.add_run(log_content)
                 f = run.font
                 set_font_format(f, font_format={'size': 12, 'name': '仿宋'})
-            cast_tot = '以上工作累计花了{}个工作日。'.format(workload // 8)
+            if workload % 8 == 0:
+                cast_tot = '以上工作累计花了{}个工作日。'.format(workload // 8)
+            else:
+                cast_tot = '以上工作累计花了{}个工作日。'.format(workload / 8)
             p = table.rows[demand_idx].cells[2].add_paragraph(style='List Continue')
             run = p.add_run(cast_tot)
             f = run.font
@@ -161,14 +163,14 @@ def create_season_log(season_log: dict):
             if row_idx == 0:
                 cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
                 cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-                __set_cell_font(cell, font_param={'size': 14, 'name': '仿宋'})
+                __set_cell_font(cell, font_format={'size': 14, 'name': '仿宋'})
             else:
                 if col_idx == 0:
                     __set_cell_font(cell, font_param={'size': 12, 'name': '仿宋'})
                     table.rows[row_idx].cells[0].width = Cm(2.89)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
                 elif col_idx == 1:
-                    __set_cell_font(cell, font_param={'size': 10.5, 'name': '宋体'})
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '宋体'})
                     table.rows[row_idx].cells[1].width = Cm(1.57)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
@@ -176,7 +178,7 @@ def create_season_log(season_log: dict):
                     table.rows[row_idx].cells[2].width = Cm(8.86)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
                 elif col_idx == 3:
-                    __set_cell_font(cell, font_param={'size': 10.5, 'name': '宋体'})
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '宋体'})
                     table.rows[row_idx].cells[3].width = Cm(2.45)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
