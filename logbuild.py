@@ -6,6 +6,7 @@ from WorkLogXls import *
 from WeekLog import create_weeklog
 from MonthLog import creat_month_log
 from SeasonLog import create_season_log
+from CorpSeasonLog import create_corp_season_log
 
 if __name__ == '__main__':
     work_log_xls = WorkLogXls()
@@ -26,3 +27,5 @@ if __name__ == '__main__':
     work_log_xls.split_season()
     for season in work_log_xls.seasons:
         create_season_log(season)
+        create_corp_season_log(season)
+

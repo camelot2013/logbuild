@@ -119,7 +119,7 @@ def create_weeklog(work_log_week: list):
 
     p = doc1.add_paragraph()
     p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-    text2 = '姓名：' + person_name + '                           所属公司：成都思锐奇信息有限公司'
+    text2 = '姓名：' + person_name + '                           所属公司：成都思瑞奇信息有限公司'
     run = p.add_run(text2, style='text')
     pformat = p.paragraph_format
     set_paragraph_format(pformat, paragraph_format=paragraph_format)
