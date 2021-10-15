@@ -141,7 +141,10 @@ def create_corp_season_log(season_log: dict):
 
     table.add_row()
     table.rows[demand_idx].cells[1].text = '合计'
-    table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload // 8)
+    if tot_workload % 8 == 0:
+        table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload // 8)
+    else:
+        table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload / 8)
 
     table.rows[1].cells[0].text = '{}:{}岗{}（成都）'.format(person_name,
                                                         person_cfg.get(person_name).get('station'),
