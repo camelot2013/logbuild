@@ -7,6 +7,7 @@ from docx.oxml import OxmlElement
 from docx.shared import Pt
 from docx.text.font import Font
 from docx.text.parfmt import ParagraphFormat
+from docx.table import Table
 
 
 def set_cell_border(cell, **kwargs):
@@ -89,3 +90,8 @@ def set_paragraph_format(pformat: ParagraphFormat, **kwargs):
                             pformat.line_spacing_rule = edge_data[key]
                         elif key == 'line_spacing':
                             pformat.line_spacing = Pt(edge_data[key])
+
+
+def merge(table: Table, row1, col1, row2, col2):
+    if isinstance(table, Table):
+        table.rows[row1].cells[col1].merge(table.rows[row2].cells[col2])

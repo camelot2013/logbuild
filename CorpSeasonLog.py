@@ -43,10 +43,6 @@ def __set_cell_font(cell, **kwargs):
             set_font_format(font, **kwargs)
 
 
-def merge(table, row1, col1, row2, col2):
-    table.rows[row1].cells[col1].merge(table.rows[row2].cells[col2])
-
-
 def create_corp_season_log(season_log: dict):
     season_log['logs'].sort(key=__sort_key_demand)
     year_and_season = season_log['year_and_season']

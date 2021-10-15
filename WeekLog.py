@@ -3,8 +3,7 @@
 
 
 from WorkLogXls import *
-from WordStyleFunc import set_font_format
-from WordStyleFunc import set_paragraph_format
+from WordStyleFunc import *
 from docx import Document
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_LINE_SPACING
@@ -17,10 +16,6 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls
-
-
-def merge(table, row1, col1, row2, col2):
-    table.rows[row1].cells[col1].merge(table.rows[row2].cells[col2])
 
 
 def get_weeklog_filename(begin_date: str, end_date: str, person_name: str):
