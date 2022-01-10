@@ -132,6 +132,7 @@ def create_season_log(season_log: dict):
             tmp_demand_no = log['demand_no']
             table.add_row()
             table.rows[demand_idx].cells[0].text = log['demand_name'] + '/' + log['system_name']
+            table.rows[demand_idx].cells[1].text = ' '
             table.rows[demand_idx].cells[3].text = log['manager_name']
             log_contents, workload = get_season_work_content(log['demand_no'], season_log['logs'])
             for idx, log_content in enumerate(log_contents):
@@ -143,7 +144,7 @@ def create_season_log(season_log: dict):
                     p = table.rows[demand_idx].cells[2].add_paragraph(style='List Bullet')
                 run = p.add_run(log_content)
                 f = run.font
-                set_font_format(f, font_format={'size': 12, 'name': '仿宋'})
+                set_font_format(f, font_format={'size': 10.5, 'name': '仿宋'})
             if workload % 8 == 0:
                 cast_tot = '以上工作累计花了{}个工作日。'.format(workload // 8)
             else:
@@ -166,19 +167,20 @@ def create_season_log(season_log: dict):
                 __set_cell_font(cell, font_format={'size': 14, 'name': '仿宋'})
             else:
                 if col_idx == 0:
-                    __set_cell_font(cell, font_format={'size': 12, 'name': '仿宋'})
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '仿宋'})
                     table.rows[row_idx].cells[0].width = Cm(2.89)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
                 elif col_idx == 1:
-                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '宋体'})
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '仿宋'})
                     table.rows[row_idx].cells[1].width = Cm(1.57)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
                 elif col_idx == 2:
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '仿宋'})
                     table.rows[row_idx].cells[2].width = Cm(8.86)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
                 elif col_idx == 3:
-                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '宋体'})
+                    __set_cell_font(cell, font_format={'size': 10.5, 'name': '仿宋'})
                     table.rows[row_idx].cells[3].width = Cm(2.45)
                     cell.paragraphs[0].alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER

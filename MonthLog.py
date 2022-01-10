@@ -82,8 +82,8 @@ def body_style():
 
 
 def get_code_lines(workload: int):
-    read_code_lines = workload * 12 + random.randint(0, 100)
-    write_code_lines = workload * 10 + random.randint(0, 100)
+    read_code_lines = workload * 18 + random.randint(0, 100)
+    write_code_lines = workload * 15 + random.randint(0, 100)
 
     return read_code_lines, write_code_lines
 
@@ -115,7 +115,7 @@ def creat_month_log(month_log: dict):
     demand_count = 0
 
     year_str = month_log['month'][:4]
-    mon_str = month_log['month'][5:]
+    mon_str = month_log['month'][4:]
     person_name = month_log['person_name']
     file_name = '人月外包人员月报-{}年{}月-{}.xls'.format(year_str, mon_str, person_name)
     person_cfg = read_cfg()
