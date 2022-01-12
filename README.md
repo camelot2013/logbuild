@@ -6,4 +6,14 @@
 
 注意，在使用pip安装包时，程序中用的docx实际是在python-docx中，而不是docx。所以应该是
 pip install python-docx
+
 还需要用到xlrd(用于读excel),xlwt(用于写excel)
+
+使用PySide2设计一个简单的界面
+
+使用pyinstaller进行打包，打包为单个文件
+  * pyinstaller -w -F logbuild.py
+  
+打包成功后在当前目录会有个dist目录，打包后的可执行文件在该目录内。
+* 要成功执行，还需要将person_list.json拷贝到相同目录。
+* 如果要使用不同的窗口图标，可以在可执行文件的目录内添加window.ico
