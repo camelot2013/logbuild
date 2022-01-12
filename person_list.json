@@ -1,5 +1,6 @@
 {
     "log_out_dir": "D:/tmp/",
+    "person_info":{
     "何腾蛟": {
         "company": "成都思瑞奇信息产业有限公司",
         "station": "开发",
@@ -30,4 +31,5 @@
         "level": "专家级",
         "MonthlyUnitPrice": 45000
     }
+  }
 }

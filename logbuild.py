@@ -23,17 +23,20 @@ class mainFace(QMainWindow):
         self.work_log_xls = None
 
         # 界面元素均可通过self.ui这个对象来获取
-        person_cfg = read_cfg()
-        if person_cfg:
-            for person_info in person_cfg['person_info']:
-                info = person_cfg['person_info'][person_info]
-                self.ui.comboBox.addItem(person_info, info)
-            info = self.ui.comboBox.currentData()
+        try:
+            person_cfg = read_cfg()
+            if person_cfg:
+                for person_name in person_cfg['person_info']:
+                    info = person_cfg['person_info'][person_name]
+                    self.ui.comboBox.addItem(person_name, info)
+                info = self.ui.comboBox.currentData()
 
-            self.ui.lineEdit_company.setText(info['company'])
-            self.ui.lineEdit_station.setText(info['station'])
-            self.ui.lineEdit_level.setText(info['level'])
-            self.ui.lineEdit_MonthlyUnitPrice.setText(str(info['MonthlyUnitPrice']))
+                self.ui.lineEdit_company.setText(info['company'])
+                self.ui.lineEdit_station.setText(info['station'])
+                self.ui.lineEdit_level.setText(info['level'])
+                self.ui.lineEdit_MonthlyUnitPrice.setText(str(info['MonthlyUnitPrice']))
+        except Exception as er:
+            QMessageBox.critical(self, '错误', traceback.format_exc())
 
         self.ui.btn_file.clicked.connect(self.btn_file_click)
         self.ui.btn_WeekLog.clicked.connect(self.btn_weeklog_click)
