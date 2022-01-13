@@ -13,6 +13,8 @@ pip install python-docx
 
 使用pyinstaller进行打包，打包为单个文件
   * pyinstaller -w -F logbuild.py
+  因为使用了动态加载ui文件，所以打包命令需要修改，以前的简单命令能打包成功但是无法执行。新命令如下：
+  * pyinstaller -w -F --add-data="mainFace.ui;." --add-data="window.ico;." logbuild.py --hidden-import PySide2.QtXml
   
 打包成功后在当前目录会有个dist目录，打包后的可执行文件在该目录内。
 * 要成功执行，还需要将person_list.json拷贝到相同目录。
