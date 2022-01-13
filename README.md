@@ -19,4 +19,3 @@ pip install python-docx
   
 打包成功后在当前目录会有个dist目录，打包后的可执行文件在该目录内。
 * 要成功执行，还需要将person_list.json拷贝到相同目录。
-* 如果要使用不同的窗口图标，可以在可执行文件的目录内添加window.ico
