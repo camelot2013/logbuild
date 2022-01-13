@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 295)
+        MainWindow.resize(800, 335)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.comboBox = QComboBox(self.centralwidget)
@@ -73,6 +73,10 @@ class Ui_MainWindow(object):
         self.btn_CorpSeasonLog = QPushButton(self.centralwidget)
         self.btn_CorpSeasonLog.setObjectName(u"btn_CorpSeasonLog")
         self.btn_CorpSeasonLog.setGeometry(QRect(490, 210, 141, 41))
+        self.progressBar = QProgressBar(self.centralwidget)
+        self.progressBar.setObjectName(u"progressBar")
+        self.progressBar.setGeometry(QRect(10, 260, 781, 41))
+        self.progressBar.setValue(24)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
