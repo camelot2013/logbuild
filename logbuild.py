@@ -25,13 +25,17 @@ class progressSignals(QObject):
 
 
 class mainFace(QMainWindow):
+    @property
+    def wd(self):
+        return self.__wd
+
     def __init__(self):
         # -----动态加载ui文件-------#
         try:
-            wd = sys._MEIPASS
+            self.__wd = sys._MEIPASS
         except AttributeError:
-            wd = os.getcwd()
-        ui_path = os.path.join(wd, "mainFace.ui")
+            self.__wd = os.getcwd()
+        ui_path = os.path.join(self.__wd, "mainFace.ui")
         face_ui = QFile(ui_path)  # 导入Qt designer生成的界面ui文件
         if not face_ui.open(QIODevice.ReadOnly):
             print("Cannot open {}: {}".format("mainFace.ui", face_ui.errorString()))
@@ -198,8 +202,7 @@ if __name__ == '__main__':
     # 禁止拉伸窗口大小
     window.ui.setFixedSize(window.ui.width(), window.ui.height())
     # 设置图标
-    current_path = os.getcwd()
-    ico_file = os.path.join(current_path, "window.ico")
+    ico_file = os.path.join(window.wd, "window.ico")
     appIcon = QIcon(ico_file)
     window.ui.setWindowIcon(appIcon)
 
