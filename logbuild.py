@@ -26,11 +26,13 @@ class progressSignals(QObject):
 
 class mainFace(QMainWindow):
     def __init__(self):
-        # super(mainFace, self).__init__()
-        # self.ui = Ui_MainWindow()
-        # self.ui.setupUi(self)
         # -----动态加载ui文件-------#
-        face_ui = QFile("mainFace.ui")  # 导入Qt designer生成的界面ui文件
+        try:
+            wd = sys._MEIPASS
+        except AttributeError:
+            wd = os.getcwd()
+        ui_path = os.path.join(wd, "mainFace.ui")
+        face_ui = QFile(ui_path)  # 导入Qt designer生成的界面ui文件
         if not face_ui.open(QIODevice.ReadOnly):
             print("Cannot open {}: {}".format("mainFace.ui", face_ui.errorString()))
             sys.exit(-1)
@@ -144,14 +146,14 @@ class mainFace(QMainWindow):
         if not self.work_log_xls:
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
-        self.ui.btn_MonthLog.setEnabled(False)
+        self.closeBtn()
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_months()
                 for month_log in self.work_log_xls.months:
                     creat_month_log(month_log)
 
-            self.ui.btn_MonthLog.setEnabled(True)
+            self.openBtn()
         except Exception as er:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
@@ -159,14 +161,14 @@ class mainFace(QMainWindow):
         if not self.work_log_xls:
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
-        self.ui.btn_SeasonLog.setEnabled(False)
+        self.closeBtn()
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
                 for season in self.work_log_xls.seasons:
                     create_season_log(season)
 
-            self.ui.btn_SeasonLog.setEnabled(True)
+            self.openBtn()
         except Exception as er:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
@@ -174,36 +176,20 @@ class mainFace(QMainWindow):
         if not self.work_log_xls:
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
-        self.ui.btn_CorpSeasonLog.setEnabled(False)
+        self.closeBtn()
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
                 for season in self.work_log_xls.seasons:
                     create_corp_season_log(season)
 
-            self.ui.btn_CorpSeasonLog.setEnabled(True)
+            self.openBtn()
         except Exception as er:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # window = mainFace()
-    # window.setWindowTitle('工作报告生成器')
-    # # 禁止最大化按钮
-    # window.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
-    # # 禁止拉伸窗口大小
-    # window.setFixedSize(window.width(), window.height());
-    # # 设置图标
-    # current_path = os.getcwd()
-    # ico_file = os.path.join(current_path, "window.ico")
-    # appIcon = QIcon(ico_file)
-    # window.setWindowIcon(appIcon)
-    #
-    # # window.setIconModes()
-    #
-    # window.show()
-    # sys.exit(app.exec_())
     window = mainFace()
 
     window.ui.setWindowTitle('工作报告生成器')
