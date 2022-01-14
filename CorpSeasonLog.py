@@ -101,7 +101,7 @@ def create_corp_season_log(season_log: dict):
 
     p = doc1.add_paragraph()
     p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-    text1 = "姓名：{}        公司名称：{}".format(person_name, person_cfg.get(person_name).get('company'))
+    text1 = "姓名：{}        公司名称：{}".format(person_name, person_cfg['person_info'].get(person_name).get('company'))
     run = p.add_run(text1, style='Head3')
     pformat = p.paragraph_format
     paragraph_format = {'space_before': 0, 'space_after': 0, 'line_spacing_rule': WD_LINE_SPACING.SINGLE}
@@ -147,8 +147,8 @@ def create_corp_season_log(season_log: dict):
         table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload / 8)
 
     table.rows[1].cells[0].text = '{}:{}岗{}（成都）'.format(person_name,
-                                                        person_cfg.get(person_name).get('station'),
-                                                        person_cfg.get(person_name).get('level'))
+                                                        person_cfg['person_info'].get(person_name).get('station'),
+                                                        person_cfg['person_info'].get(person_name).get('level'))
     table.rows[1].cells[1].text = '综合前端系统（{}人天）'.format(tot_workload // 8)
 
     for row_idx in range(table.rows.__len__()):

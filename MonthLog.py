@@ -166,11 +166,11 @@ def creat_month_log(month_log: dict):
     sh.write_merge(3, 3 + demand_count - 1, 0, 0, '1', body_style())
     sh.write_merge(3, 3 + demand_count - 1, 1, 1, month_log['month'], body_style())
 
-    sh.write_merge(3, 3 + demand_count - 1, 2, 2, person_cfg.get(person_name).get('company'), body_style())
+    sh.write_merge(3, 3 + demand_count - 1, 2, 2, person_cfg['person_info'].get(person_name).get('company'), body_style())
     sh.write_merge(3, 3 + demand_count - 1, 3, 3, person_name, body_style())
-    sh.write_merge(3, 3 + demand_count - 1, 4, 4, person_cfg.get(person_name).get('station'), body_style())
-    sh.write_merge(3, 3 + demand_count - 1, 5, 5, person_cfg.get(person_name).get('level'), body_style())
-    sh.write_merge(3, 3 + demand_count - 1, 6, 6, person_cfg.get(person_name).get('MonthlyUnitPrice'), body_style())
+    sh.write_merge(3, 3 + demand_count - 1, 4, 4, person_cfg['person_info'].get(person_name).get('station'), body_style())
+    sh.write_merge(3, 3 + demand_count - 1, 5, 5, person_cfg['person_info'].get(person_name).get('level'), body_style())
+    sh.write_merge(3, 3 + demand_count - 1, 6, 6, person_cfg['person_info'].get(person_name).get('MonthlyUnitPrice'), body_style())
     sh.write_merge(3, 3 + demand_count - 1, 13, 13, tot_workload / 8, body_style())
 
     # 设置列宽，一个中文等于两个英文等于两个字符，11为字符数，256为衡量单位

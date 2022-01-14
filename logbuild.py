@@ -31,6 +31,7 @@ class mainFace(QMainWindow):
 
     def __init__(self):
         # -----动态加载ui文件-------#
+        super(mainFace, self).__init__()
         try:
             self.__wd = sys._MEIPASS
         except AttributeError:
@@ -121,7 +122,6 @@ class mainFace(QMainWindow):
         self.ui.progressBar.setValue(0)
         thread = Thread(target=self.btn_weeklog_click)
         thread.start()
-        QMessageBox.information(self, '信息', '工作周报生成完毕')
 
     def btn_weeklog_click(self):
         if not self.work_log_xls:
@@ -131,14 +131,12 @@ class mainFace(QMainWindow):
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_weeks()
-                pro_num = 0
-                for week in self.work_log_xls.weeks:
+                for index, week in enumerate(self.work_log_xls.weeks):
                     create_weeklog(week)
-                    pro_num = pro_num + 1
                     # self.setProgressValue(self.work_log_xls.weeks.__len__(), pro_num)
-                    self.progress.progress_change.emit(self.work_log_xls.weeks.__len__(), pro_num)
+                    self.progress.progress_change.emit(self.work_log_xls.weeks.__len__(), index + 1)
                     # sleep(1)  # 为测试多线程增加的
-                # QMessageBox.information(self, '信息', '工作周报生成完毕') #引入多线程后这里的消息提示出问题了，弹出一个白框，并且程序卡死
+                # QMessageBox.information(self.ui, '信息', '工作周报生成完毕') #引入多线程后这里的消息提示出问题了，弹出一个白框，并且程序卡死
                 self.openBtn()
         except Exception as er:
             QMessageBox.critical(self, '错误', traceback.format_exc())
@@ -154,12 +152,15 @@ class mainFace(QMainWindow):
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_months()
-                for month_log in self.work_log_xls.months:
+                self.setProgressValue(self.work_log_xls.months.__len__(), 0)
+                for index, month_log in enumerate(self.work_log_xls.months):
                     creat_month_log(month_log)
+                    self.setProgressValue(self.work_log_xls.months.__len__(), index + 1)
 
             self.openBtn()
         except Exception as er:
             QMessageBox.critical(self, '错误', traceback.format_exc())
+            print(traceback.format_exc())
 
     def btn_seasonlog_click(self):
         if not self.work_log_xls:
@@ -169,8 +170,10 @@ class mainFace(QMainWindow):
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
-                for season in self.work_log_xls.seasons:
+                self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
+                for index, season in enumerate(self.work_log_xls.seasons):
                     create_season_log(season)
+                    self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
         except Exception as er:
@@ -184,8 +187,10 @@ class mainFace(QMainWindow):
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
-                for season in self.work_log_xls.seasons:
+                self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
+                for index, season in enumerate(self.work_log_xls.seasons):
                     create_corp_season_log(season)
+                    self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
         except Exception as er:
@@ -196,7 +201,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = mainFace()
 
-    window.ui.setWindowTitle('工作报告生成器')
+    # window.ui.setWindowTitle('工作报告生成器')
     # 禁止最大化按钮
     window.ui.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
     # 禁止拉伸窗口大小
@@ -206,5 +211,7 @@ if __name__ == '__main__':
     appIcon = QIcon(ico_file)
     window.ui.setWindowIcon(appIcon)
 
+
     window.ui.show()
+
     app.exec_()

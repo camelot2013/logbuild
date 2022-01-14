@@ -101,7 +101,7 @@ def create_season_log(season_log: dict):
 
     p = doc1.add_paragraph()
     p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-    text1 = "姓名：{}        公司名称：{}".format(person_name, person_cfg.get(person_name).get('company'))
+    text1 = "姓名：{}        公司名称：{}".format(person_name, person_cfg['person_info'].get(person_name).get('company'))
     run = p.add_run(text1, style='Head3')
     pformat = p.paragraph_format
     paragraph_format = {'space_before': 0, 'space_after': 0, 'line_spacing_rule': WD_LINE_SPACING.SINGLE}
