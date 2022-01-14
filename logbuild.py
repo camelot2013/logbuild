@@ -22,6 +22,8 @@ from PySide2.QtCore import QFile, QIODevice
 
 class progressSignals(QObject):
     progress_change = Signal(int, int)
+    alert_error_message = Signal(str)
+    alert_info_message = Signal(str)
 
 
 class mainFace(QMainWindow):
@@ -49,6 +51,8 @@ class mainFace(QMainWindow):
         self.ui.progressBar.setValue(0)
         self.progress = progressSignals()
         self.progress.progress_change.connect(self.setProgressValue)
+        self.progress.alert_error_message.connect(self.alert_error_message)
+        self.progress.alert_info_message.connect(self.alert_info_message)
         try:
             person_cfg = read_cfg()
             if person_cfg:
@@ -136,6 +140,7 @@ class mainFace(QMainWindow):
                     # self.setProgressValue(self.work_log_xls.weeks.__len__(), pro_num)
                     self.progress.progress_change.emit(self.work_log_xls.weeks.__len__(), index + 1)
                     # sleep(1)  # 为测试多线程增加的
+                self.progress.alert_info_message.emit('工作周报生成完毕')
                 # QMessageBox.information(self.ui, '信息', '工作周报生成完毕') #引入多线程后这里的消息提示出问题了，弹出一个白框，并且程序卡死
                 self.openBtn()
         except Exception as er:
@@ -143,6 +148,12 @@ class mainFace(QMainWindow):
 
     def setProgressValue(self, total, current):
         self.ui.progressBar.setValue(current / total * 100)
+
+    def alert_error_message(self, error_message):
+        QMessageBox.critical(self, '错误', error_message)
+
+    def alert_info_message(self, info_message):
+        QMessageBox.information(self, '信息', info_message)
 
     def btn_monthlog_click(self):
         if not self.work_log_xls:
