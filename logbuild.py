@@ -8,32 +8,36 @@ from MonthLog import creat_month_log
 from SeasonLog import create_season_log
 from CorpSeasonLog import create_corp_season_log
 import traceback
-from mainFace import Ui_MainWindow
+# from mainFace import Ui_MainWindow
 from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PySide2 import QtCore
 from PySide2.QtGui import QIcon
-from PySide2.QtCore import Signal,QObject
+from PySide2.QtCore import Signal, QObject
 import sys
-from time import sleep
+# from time import sleep
 from threading import Thread
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QFile, QIODevice
 
 
-class progressSignals(QObject):
+class ProgressSignals(QObject):
+    def __init__(self):
+        super(ProgressSignals, self).__init__()
+
     progress_change = Signal(int, int)
     alert_error_message = Signal(str)
     alert_info_message = Signal(str)
 
 
-class mainFace(QMainWindow):
+class MainFace(QMainWindow):
+    
     @property
     def wd(self):
         return self.__wd
 
     def __init__(self):
         # -----动态加载ui文件-------#
-        super(mainFace, self).__init__()
+        super(MainFace, self).__init__()
         try:
             self.__wd = sys._MEIPASS
         except AttributeError:
@@ -49,10 +53,12 @@ class mainFace(QMainWindow):
 
         # 界面元素均可通过self.ui这个对象来获取
         self.ui.progressBar.setValue(0)
-        self.progress = progressSignals()
+        self.progress = ProgressSignals()
+
         self.progress.progress_change.connect(self.setProgressValue)
         self.progress.alert_error_message.connect(self.alert_error_message)
         self.progress.alert_info_message.connect(self.alert_info_message)
+        # noinspection PyBroadException
         try:
             person_cfg = read_cfg()
             if person_cfg:
@@ -65,7 +71,7 @@ class mainFace(QMainWindow):
                 self.ui.lineEdit_station.setText(info['station'])
                 self.ui.lineEdit_level.setText(info['level'])
                 self.ui.lineEdit_MonthlyUnitPrice.setText(str(info['MonthlyUnitPrice']))
-        except Exception as er:
+        except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
         self.ui.btn_file.clicked.connect(self.btn_file_click)
@@ -82,6 +88,7 @@ class mainFace(QMainWindow):
         if file_path:
             self.ui.lineEdit_FilePath.setText(file_path[0])
             self.work_log_xls = WorkLogXls()
+            # noinspection PyBroadException
             try:
                 self.work_log_xls.read_xls(file_path[0])
                 self.ui.btn_WeekLog.setEnabled(True)
@@ -96,14 +103,14 @@ class mainFace(QMainWindow):
                         self.ui.btn_CorpSeasonLog.setEnabled(False)
                         QMessageBox.critical(self, '错误', '日志详情文件中人员名称与当前选择的不一致')
                         return
-            except Exception as er:
+            except Exception:
                 QMessageBox.critical(self, '错误', traceback.format_exc())
                 self.ui.btn_WeekLog.setEnabled(False)
                 self.ui.btn_MonthLog.setEnabled(False)
                 self.ui.btn_SeasonLog.setEnabled(False)
                 self.ui.btn_CorpSeasonLog.setEnabled(False)
 
-    def selectionchange1(self, i):
+    def selectionchange1(self):
         info = self.ui.comboBox.currentData()
         self.ui.lineEdit_company.setText(info['company'])
         self.ui.lineEdit_station.setText(info['station'])
@@ -132,6 +139,7 @@ class mainFace(QMainWindow):
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
+        # noinspection PyBroadException
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_weeks()
@@ -143,7 +151,7 @@ class mainFace(QMainWindow):
                 self.progress.alert_info_message.emit('工作周报生成完毕')
                 # QMessageBox.information(self.ui, '信息', '工作周报生成完毕') #引入多线程后这里的消息提示出问题了，弹出一个白框，并且程序卡死
                 self.openBtn()
-        except Exception as er:
+        except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
     def setProgressValue(self, total, current):
@@ -160,6 +168,7 @@ class mainFace(QMainWindow):
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
+        # noinspection PyBroadException
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_months()
@@ -169,7 +178,7 @@ class mainFace(QMainWindow):
                     self.setProgressValue(self.work_log_xls.months.__len__(), index + 1)
 
             self.openBtn()
-        except Exception as er:
+        except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
             print(traceback.format_exc())
 
@@ -178,6 +187,7 @@ class mainFace(QMainWindow):
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
+        # noinspection PyBroadException
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
@@ -187,7 +197,7 @@ class mainFace(QMainWindow):
                     self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
-        except Exception as er:
+        except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
     def btn_corpseasonlog_click(self):
@@ -195,6 +205,7 @@ class mainFace(QMainWindow):
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
+        # noinspection PyBroadException
         try:
             if self.work_log_xls:
                 self.work_log_xls.split_season()
@@ -204,13 +215,13 @@ class mainFace(QMainWindow):
                     self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
-        except Exception as er:
+        except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = mainFace()
+    window = MainFace()
 
     # window.ui.setWindowTitle('工作报告生成器')
     # 禁止最大化按钮
@@ -221,7 +232,6 @@ if __name__ == '__main__':
     ico_file = os.path.join(window.wd, "window.ico")
     appIcon = QIcon(ico_file)
     window.ui.setWindowIcon(appIcon)
-
 
     window.ui.show()
 
