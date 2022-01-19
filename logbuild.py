@@ -8,7 +8,8 @@ from MonthLog import creat_month_log
 from SeasonLog import create_season_log
 from CorpSeasonLog import create_corp_season_log
 import traceback
-from mainFace import Ui_MainWindow
+# from mainFace import Ui_MainWindow   # 不带资源文件的ui
+from mainFaceWithRcc import Ui_MainWindow  # 带资源文件的ui
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PySide6 import QtCore
 from PySide6.QtGui import QIcon, QPixmap
@@ -18,7 +19,7 @@ import sys
 from threading import Thread
 # from PySide6.QtUiTools import QUiLoader
 # from PySide6.QtCore import QFile, QIODevice
-from rc_app import *
+# from app_rc import *  # 引入资源文件，该资源文件在ui文件中未使用
 
 
 class ProgressSignals(QObject):
@@ -221,9 +222,10 @@ if __name__ == '__main__':
     window.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
     # 禁止拉伸窗口大小
     window.setFixedSize(window.width(), window.height())
-
-    appIcon = QIcon(QPixmap(":/images/window.ico"))
-    window.setWindowIcon(appIcon)
+    # ui文件中不包含资源文件时设置窗体图标
+    # appIcon = QIcon(QPixmap(":/images/window.ico"))
+    # appIcon = QIcon(":/images/window.ico")
+    # window.setWindowIcon(appIcon)
 
     window.show()
 
