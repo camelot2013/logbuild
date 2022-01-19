@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>工作报告生成器</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>window.ico</normaloff>window.ico</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">

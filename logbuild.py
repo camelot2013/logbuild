@@ -11,13 +11,14 @@ import traceback
 from mainFace import Ui_MainWindow
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PySide6 import QtCore
-# from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtCore import Signal, QObject
 import sys
 # from time import sleep
 from threading import Thread
 # from PySide6.QtUiTools import QUiLoader
 # from PySide6.QtCore import QFile, QIODevice
+from rc_app import *
 
 
 class ProgressSignals(QObject):
@@ -220,6 +221,10 @@ if __name__ == '__main__':
     window.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
     # 禁止拉伸窗口大小
     window.setFixedSize(window.width(), window.height())
+
+    appIcon = QIcon(QPixmap(":/images/window.ico"))
+    window.setWindowIcon(appIcon)
+
     window.show()
 
     sys.exit(app.exec())
