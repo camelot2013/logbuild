@@ -8,16 +8,16 @@ from MonthLog import creat_month_log
 from SeasonLog import create_season_log
 from CorpSeasonLog import create_corp_season_log
 import traceback
-# from mainFace import Ui_MainWindow
-from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
-from PySide2 import QtCore
-from PySide2.QtGui import QIcon
-from PySide2.QtCore import Signal, QObject
+from mainFace import Ui_MainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
+from PySide6 import QtCore
+# from PySide6.QtGui import QIcon
+from PySide6.QtCore import Signal, QObject
 import sys
 # from time import sleep
 from threading import Thread
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QFile, QIODevice
+# from PySide6.QtUiTools import QUiLoader
+# from PySide6.QtCore import QFile, QIODevice
 
 
 class ProgressSignals(QObject):
@@ -36,19 +36,13 @@ class MainFace(QMainWindow):
         return self.__wd
 
     def __init__(self):
-        # -----动态加载ui文件-------#
         super(MainFace, self).__init__()
         try:
             self.__wd = sys._MEIPASS
         except AttributeError:
             self.__wd = os.getcwd()
-        ui_path = os.path.join(self.__wd, "mainFace.ui")
-        face_ui = QFile(ui_path)  # 导入Qt designer生成的界面ui文件
-        if not face_ui.open(QIODevice.ReadOnly):
-            print("Cannot open {}: {}".format("mainFace.ui", face_ui.errorString()))
-            sys.exit(-1)
-        face_ui.close()
-        self.ui = QUiLoader().load(face_ui)
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
         self.work_log_xls = None
 
         # 界面元素均可通过self.ui这个对象来获取
@@ -75,7 +69,6 @@ class MainFace(QMainWindow):
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
         self.ui.btn_file.clicked.connect(self.btn_file_click)
-        # self.ui.btn_WeekLog.clicked.connect(self.btn_weeklog_click)
         self.ui.btn_WeekLog.clicked.connect(self.btn_weeklog_thread_click)
         self.ui.btn_MonthLog.clicked.connect(self.btn_monthlog_click)
         self.ui.btn_SeasonLog.clicked.connect(self.btn_seasonlog_click)
@@ -223,16 +216,10 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainFace()
 
-    # window.ui.setWindowTitle('工作报告生成器')
     # 禁止最大化按钮
-    window.ui.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
+    window.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint | QtCore.Qt.WindowCloseButtonHint)
     # 禁止拉伸窗口大小
-    window.ui.setFixedSize(window.ui.width(), window.ui.height())
-    # 设置图标
-    ico_file = os.path.join(window.wd, "window.ico")
-    appIcon = QIcon(ico_file)
-    window.ui.setWindowIcon(appIcon)
+    window.setFixedSize(window.width(), window.height())
+    window.show()
 
-    window.ui.show()
-
-    app.exec_()
+    sys.exit(app.exec())
