@@ -19,3 +19,11 @@ pip install python-docx
   
 打包成功后在当前目录会有个dist目录，打包后的可执行文件在该目录内。
 * 要成功执行，还需要将person_list.json拷贝到相同目录。
+
+使用PySide6后，在用pyinstaller打包时发现一个问题，就是pyinstaller的版本低了导致打包出的程序无法运行，报错：
+
+qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "D:\SRC\python\logbuild\dist\logbuild\PySide6\plugins\platforms"
+
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+目前是将pyinstaller升级到最新的4.8后解决了问题。
