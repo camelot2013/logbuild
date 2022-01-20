@@ -8,14 +8,20 @@ from MonthLog import creat_month_log
 from SeasonLog import create_season_log
 from CorpSeasonLog import create_corp_season_log
 import traceback
+from PySide2.plugins.platforms import *
 # from mainFace import Ui_MainWindow   # 不带资源文件的ui
-from mainFaceWithRcc import Ui_MainWindow  # 带资源文件的ui
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
-from PySide6 import QtCore
-from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtCore import Signal, QObject
+from mainFace import Ui_MainWindow  # 带资源文件的ui
+from PySide2.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
+from PySide2 import QtCore
+from PySide2.QtGui import QIcon, QPixmap
+from PySide2.QtCore import Signal, QObject
 import sys
+
+# from time import sleep
 from threading import Thread
+# from PySide2.QtUiTools import QUiLoader
+# from PySide2.QtCore import QFile, QIODevice
+# from app_rc import *  # 引入资源文件，该资源文件在ui文件中未使用
 
 
 class ProgressSignals(QObject):
@@ -45,7 +51,6 @@ class MainFace(QMainWindow):
 
         # 界面元素均可通过self.ui这个对象来获取
         self.ui.progressBar.setValue(0)
-        self.ui.actionopen.triggered.connect(self.btn_file_click)
         self.progress = ProgressSignals()
 
         self.progress.progress_change.connect(self.setProgressValue)
@@ -128,8 +133,7 @@ class MainFace(QMainWindow):
 
     def btn_weeklog_click(self):
         if not self.work_log_xls:
-            self.progress.alert_error_message.emit('请先选择日志详情导出文件')
-            # QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
+            QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
         # noinspection PyBroadException
@@ -228,4 +232,4 @@ if __name__ == '__main__':
 
     window.show()
 
-    sys.exit(app.exec())
+    sys.exit(app.exec_())

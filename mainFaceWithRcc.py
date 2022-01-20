@@ -11,13 +11,14 @@
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QLineEdit,
-    QMainWindow, QProgressBar, QPushButton, QSizePolicy,
-    QStatusBar, QWidget)
+    QMainWindow, QMenu, QMenuBar, QProgressBar,
+    QPushButton, QSizePolicy, QStatusBar, QWidget)
 import appico_rc
 
 class Ui_MainWindow(object):
@@ -28,6 +29,8 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/icon/images/App.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
+        self.actionopen = QAction(MainWindow)
+        self.actionopen.setObjectName(u"actionopen")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.comboBox = QComboBox(self.centralwidget)
@@ -91,6 +94,15 @@ class Ui_MainWindow(object):
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.menuBar = QMenuBar(MainWindow)
+        self.menuBar.setObjectName(u"menuBar")
+        self.menuBar.setGeometry(QRect(0, 0, 800, 22))
+        self.menu = QMenu(self.menuBar)
+        self.menu.setObjectName(u"menu")
+        MainWindow.setMenuBar(self.menuBar)
+
+        self.menuBar.addAction(self.menu.menuAction())
+        self.menu.addAction(self.actionopen)
 
         self.retranslateUi(MainWindow)
 
@@ -99,6 +111,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u5de5\u4f5c\u62a5\u544a\u751f\u6210\u5668", None))
+        self.actionopen.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6587\u4ef6", None))
+#if QT_CONFIG(tooltip)
+        self.actionopen.setToolTip(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6587\u4ef6", None))
+#endif // QT_CONFIG(tooltip)
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u4eba\u5458\u540d\u79f0", None))
         self.btn_file.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u65e5\u5fd7\u5bfc\u51fa\u6587\u4ef6", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u516c\u53f8\u540d\u79f0", None))
@@ -109,5 +125,6 @@ class Ui_MainWindow(object):
         self.btn_MonthLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u6708\u62a5", None))
         self.btn_SeasonLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u5b63\u62a5", None))
         self.btn_CorpSeasonLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u516c\u53f8\u5b63\u62a5", None))
+        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
     # retranslateUi
 
