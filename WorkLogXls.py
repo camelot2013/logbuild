@@ -108,22 +108,22 @@ class WorkLogXls(object):
                 workload = int(table_row[9].strip())
                 work_content = table_row[10].strip()
                 work_time = datetime.datetime.strptime(work_date, '%Y-%m-%d').date()
+                if workload > 0:
+                    work_log = {'work_date': work_time.strftime('%Y%m%d'),
+                                'week': work_time.weekday(),
+                                'year_week': work_time.strftime('%Y%W'),
+                                'person_name': person_name,
+                                'demand_name': demand_name,
+                                'demand_no': demand_no,
+                                'manager_name': manager_name,
+                                'month_request_no': month_request_no,
+                                'workload': workload,
+                                'system_name': table_row[4].strip(),
+                                'work_content': work_content}
+                    self.__work_logs.append(work_log)
 
-                work_log = {'work_date': work_time.strftime('%Y%m%d'),
-                            'week': work_time.weekday(),
-                            'year_week': work_time.strftime('%Y%W'),
-                            'person_name': person_name,
-                            'demand_name': demand_name,
-                            'demand_no': demand_no,
-                            'manager_name': manager_name,
-                            'month_request_no': month_request_no,
-                            'workload': workload,
-                            'system_name': table_row[4].strip(),
-                            'work_content': work_content}
-                self.__work_logs.append(work_log)
-
-                if self.__work_logs:
-                    self.work_log_sort_by_date()
+            if self.__work_logs:
+                self.work_log_sort_by_date()
 
     def split_weeks(self):
         self.work_log_sort_by_date()

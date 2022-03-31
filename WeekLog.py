@@ -63,10 +63,10 @@ def tabBgColor(table, row_idx, cols, colorStr):
 
 def create_weeklog(work_log_week: list):
     # 传入参数合法性检查
-    if work_log_week.__len__() > 7:
-        print(work_log_week)
-        print('一周的日志内容最多包含7天')
-        return
+    # if work_log_week.__len__() > 7:
+    #     print(work_log_week)
+    #     print('一周的日志内容最多包含7天')
+    #     return
     for work_log in work_log_week:
         if not check_work_log(work_log):
             return
