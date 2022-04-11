@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 335)
+        MainWindow.resize(800, 351)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.comboBox = QComboBox(self.centralwidget)
@@ -77,6 +77,9 @@ class Ui_MainWindow(object):
         self.progressBar.setObjectName(u"progressBar")
         self.progressBar.setGeometry(QRect(10, 260, 781, 41))
         self.progressBar.setValue(0)
+        self.label_6 = QLabel(self.centralwidget)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setGeometry(QRect(20, 310, 621, 21))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -99,5 +102,6 @@ class Ui_MainWindow(object):
         self.btn_MonthLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u6708\u62a5", None))
         self.btn_SeasonLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u5b63\u62a5", None))
         self.btn_CorpSeasonLog.setText(QCoreApplication.translate("MainWindow", u"\u751f\u6210\u516c\u53f8\u5b63\u62a5", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u4e3a\u7b26\u5408\u884c\u65b9\u683c\u5f0f\u8981\u6c42\uff0c\u5468\u62a5\u9700\u8bbe\u7f6e\u8868\u683c\u5bbd\u5ea6\uff1a15.18CM;   \u4e2a\u4eba\u5b63\u62a5\u9700\u8bbe\u7f6e\u8868\u683c\u5bbd\u5ea6\uff1a15.77CM", None))
     # retranslateUi
 

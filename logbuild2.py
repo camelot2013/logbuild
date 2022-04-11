@@ -34,7 +34,7 @@ class ProgressSignals(QObject):
 
 
 class MainFace(QMainWindow):
-    
+
     @property
     def wd(self):
         return self.__wd
@@ -133,7 +133,8 @@ class MainFace(QMainWindow):
 
     def btn_weeklog_click(self):
         if not self.work_log_xls:
-            QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
+            self.progress.alert_error_message.emit('请先选择日志详情导出文件')
+            # QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
         self.closeBtn()
         # noinspection PyBroadException
@@ -149,7 +150,8 @@ class MainFace(QMainWindow):
                 # QMessageBox.information(self.ui, '信息', '工作周报生成完毕') #引入多线程后这里的消息提示出问题了，弹出一个白框，并且程序卡死
                 self.openBtn()
         except Exception:
-            QMessageBox.critical(self, '错误', traceback.format_exc())
+            self.progress.alert_error_message.emit(traceback.format_exc())
+            # QMessageBox.critical(self, '错误', traceback.format_exc())
 
     def setProgressValue(self, total, current):
         self.ui.progressBar.setValue(current / total * 100)

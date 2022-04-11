@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>335</height>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -230,6 +230,19 @@
     </property>
     <property name="value">
      <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>621</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>为符合行方格式要求，周报需设置表格宽度：15.18CM;   个人季报需设置表格宽度：15.77CM</string>
     </property>
    </widget>
   </widget>
