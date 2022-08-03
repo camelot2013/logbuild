@@ -19,7 +19,7 @@ from docx.oxml.ns import nsdecls
 
 
 def get_weeklog_filename(begin_date: str, end_date: str, person_name: str):
-    return '人月外包服务人员个人周报-思瑞奇-{}({}-{}).docx'.format(person_name, begin_date, end_date)
+    return '附录4人月外包服务人员个人周报-成都思瑞奇信息产业有限公司-{}({}-{}).docx'.format(person_name, begin_date, end_date)
 
 
 # def walk_weeks(weeks: list):

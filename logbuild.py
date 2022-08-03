@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 
@@ -52,6 +51,9 @@ class MainFace(QMainWindow):
         self.progress.alert_error_message.connect(self.alert_error_message)
         self.progress.alert_info_message.connect(self.alert_info_message)
         # noinspection PyBroadException
+        if not os.path.exists(os.path.join(self.__wd, 'person_list.json')):
+            QMessageBox.critical(self, '错误', f'配置文件[person_list.json]不存在，程序无法正常初始化')
+            return
         try:
             person_cfg = read_cfg()
             if person_cfg:

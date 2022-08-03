@@ -28,7 +28,7 @@ def get_season_work_content(demand_no: str, logs: list):
 
 
 def get_season_log_name(person_name: str, year_and_season: str):
-    return '人月外包服务人员季度工作情况报告-思瑞奇-{}({}年{}季度).docx'.format(person_name, year_and_season[:4], year_and_season[4:])
+    return '附录5人月外包服务人员季度工作情况报告-成都思瑞奇信息产业有限公司-{}({}年{}季度).docx'.format(person_name, year_and_season[:4], year_and_season[4:])
 
 
 def __sort_key_demand(elem):
