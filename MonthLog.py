@@ -82,8 +82,8 @@ def body_style():
 
 
 def get_code_lines(workload: int):
-    read_code_lines = workload * 18 + random.randint(0, 100)
-    write_code_lines = workload * 15 + random.randint(0, 100)
+    read_code_lines = workload * random.randint(10, 12) + random.randint(0, 20)
+    write_code_lines = workload * random.randint(7, 11) + random.randint(3, 15)
 
     return read_code_lines, write_code_lines
 
