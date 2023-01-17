@@ -81,7 +81,7 @@ class MainFace(QMainWindow):
 
     def btn_file_epiboly_click(self):
         file_dialog = QFileDialog(self)
-        file_path = file_dialog.getOpenFileName(self, "按系统统计外包工作量导出文件", ".", "xls Files(*.xls)")
+        file_path = file_dialog.getOpenFileName(self, "按系统统计外包工作量导出文件", get_out_dir(), "xls Files(*.xls)")
         if file_path:
             self.ui.lineEdit_FilePath_EpibolyTotal.setText(file_path[0])
             self.epiboly_work = EpibolyWorkTotalOnSystem()
@@ -89,7 +89,8 @@ class MainFace(QMainWindow):
 
     def btn_file_click(self):
         file_dialog = QFileDialog(self)
-        file_path = file_dialog.getOpenFileName(self, "日志详情导出文件", ".", "xls Files(*.xls)")
+
+        file_path = file_dialog.getOpenFileName(self, "日志详情导出文件", get_out_dir(), "xls Files(*.xls)")
         if file_path:
             self.ui.lineEdit_FilePath.setText(file_path[0])
             self.work_log_xls = WorkLogXls()
