@@ -4,6 +4,7 @@
 
 from WorkLogXls import *
 from WordStyleFunc import *
+from EpibolyWorkTotalOnSystem import *
 from docx import Document
 from docx.shared import Pt
 from docx.shared import Cm  # 导入单位转换函数
@@ -43,7 +44,7 @@ def __set_cell_font(cell, **kwargs):
             set_font_format(font, **kwargs)
 
 
-def create_season_log(season_log: dict):
+def create_season_log(season_log: dict, epiboly_work: EpibolyWorkTotalOnSystem):
     season_log['logs'].sort(key=__sort_key_demand)
     year_and_season = season_log['year_and_season']
     person_name = season_log['person_name']
@@ -132,7 +133,7 @@ def create_season_log(season_log: dict):
             tmp_demand_no = log['demand_no']
             table.add_row()
             table.rows[demand_idx].cells[0].text = log['demand_name'] + '/' + log['system_name']
-            table.rows[demand_idx].cells[1].text = ' '
+            table.rows[demand_idx].cells[1].text = epiboly_work.demands[log['demand_no']]
             table.rows[demand_idx].cells[3].text = log['manager_name']
             log_contents, workload = get_season_work_content(log['demand_no'], season_log['logs'])
             for idx, log_content in enumerate(log_contents):

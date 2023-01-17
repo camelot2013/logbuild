@@ -2,6 +2,7 @@
 
 
 from WorkLogXls import *
+from EpibolyWorkTotalOnSystem import *
 from WeekLog import create_weeklog
 from MonthLog import creat_month_log
 from SeasonLog import create_season_log
@@ -41,6 +42,7 @@ class MainFace(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.work_log_xls = None
+        self.epiboly_work = None
 
         # 界面元素均可通过self.ui这个对象来获取
         self.ui.progressBar.setValue(0)
@@ -70,11 +72,20 @@ class MainFace(QMainWindow):
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
         self.ui.btn_file.clicked.connect(self.btn_file_click)
+        self.ui.btn_file_EpibolyTotal.clicked.connect(self.btn_file_epiboly_click)
         self.ui.btn_WeekLog.clicked.connect(self.btn_weeklog_thread_click)
         self.ui.btn_MonthLog.clicked.connect(self.btn_monthlog_click)
         self.ui.btn_SeasonLog.clicked.connect(self.btn_seasonlog_click)
         self.ui.btn_CorpSeasonLog.clicked.connect(self.btn_corpseasonlog_click)
         self.ui.comboBox.currentIndexChanged.connect(self.selectionchange1)
+
+    def btn_file_epiboly_click(self):
+        file_dialog = QFileDialog(self)
+        file_path = file_dialog.getOpenFileName(self, "按系统统计外包工作量导出文件", ".", "xls Files(*.xls)")
+        if file_path:
+            self.ui.lineEdit_FilePath_EpibolyTotal.setText(file_path[0])
+            self.epiboly_work = EpibolyWorkTotalOnSystem()
+            self.epiboly_work.read_xls(file_path[0])
 
     def btn_file_click(self):
         file_dialog = QFileDialog(self)
@@ -182,6 +193,9 @@ class MainFace(QMainWindow):
         if not self.work_log_xls:
             QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
             return
+        if not self.epiboly_work:
+            QMessageBox.critical(self, '错误', '请先选择按系统统计外包工作量导出文件')
+            return
         self.closeBtn()
         # noinspection PyBroadException
         try:
@@ -189,7 +203,7 @@ class MainFace(QMainWindow):
                 self.work_log_xls.split_season()
                 self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
                 for index, season in enumerate(self.work_log_xls.seasons):
-                    create_season_log(season)
+                    create_season_log(season, self.epiboly_work)
                     self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
