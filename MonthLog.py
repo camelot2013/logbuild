@@ -5,6 +5,7 @@
 import random
 from WorkLogXls import *
 from ExcelStyleFunc import *
+from docx.shared import Pt
 import xlwt
 
 

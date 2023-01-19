@@ -22,11 +22,6 @@ def get_weeklog_filename(begin_date: str, end_date: str, person_name: str):
     return '附录4人月外包服务人员个人周报-成都思瑞奇信息产业有限公司-{}({}-{}).docx'.format(person_name, begin_date, end_date)
 
 
-# def walk_weeks(weeks: list):
-#     for week in weeks:
-#         create_weeklog(week)
-
-
 # 检查工作日志内容是否包含有效内容
 def check_work_log(work_log: dict):
     if 'work_date' not in work_log:
@@ -107,7 +102,7 @@ def create_weeklog(work_log_week: list):
                                                             end_date[:4],
                                                             end_date[4:6],
                                                             end_date[6:])
-    run = p.add_run(text1, style='Head2')
+    p.add_run(text1, style='Head2')
     pformat = p.paragraph_format
     paragraph_format = {'space_before': 0, 'space_after': 0, 'line_spacing_rule': WD_LINE_SPACING.SINGLE}
     set_paragraph_format(pformat, paragraph_format=paragraph_format)
@@ -115,7 +110,7 @@ def create_weeklog(work_log_week: list):
     p = doc1.add_paragraph()
     p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
     text2 = '姓名：' + person_name + '                           所属公司：成都思瑞奇信息有限公司'
-    run = p.add_run(text2, style='text')
+    p.add_run(text2, style='text')
     pformat = p.paragraph_format
     set_paragraph_format(pformat, paragraph_format=paragraph_format)
 

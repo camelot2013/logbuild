@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
-from docx.shared import Pt
-from docx.text.font import Font
-from docx.text.parfmt import ParagraphFormat
 import xlwt
 
 
