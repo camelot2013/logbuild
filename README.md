@@ -27,3 +27,31 @@ qt.qpa.plugin: Could not find the Qt platform plugin "windows" in "D:\SRC\python
 This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
 
 目前是将pyinstaller升级到最新的4.8后解决了问题。
+
+使用nuitka打包的可执行程序比pyinstaller快
+
+打包方法一：
+
+第一步：将使用到的程序模块制作为pyd文件
+* nuitka --mingw64 --module --show-progress --output-dir=pyd WorkLogXls.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd EpibolyWorkTotalOnSystem.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd WeekLog.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd MonthLog.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd SeasonLog.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd CorpSeasonLog.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd mainFaceWithRcc.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd appico_rc.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd ExcelStyleFunc.py
+* nuitka --mingw64 --module --show-progress --output-dir=pyd WordStyleFunc.py
+
+第二步：制作主程序
+* nuitka --standalone --disable-console --plugin-enable=pyside6 --mingw64  --show-progress --show-memory --output-dir=out logbuild.py
+
+第三步：拷贝需要的包至out/logbuild.dist
+* 第一步制作的所有的pyd文件
+* 在Python310\Lib\site-packages目录下复制docx,xlrd,xlwt,lxml至out/logbuild.dist
+
+打包方法二：
+* nuitka --standalone --disable-console --plugin-enable=pyside6 --nofollow-imports --follow-import-to=WorkLogXls,EpibolyWorkTotalOnSystem,WeekLog,MonthLog,SeasonLog,CorpSeasonLog,mainFaceWithRcc,appico_rc,ExcelStyleFunc,WordStyleFunc,docx --mingw64  --show-progress --show-memory --output-dir=out logbuild.py
+
+该方法制作打包文件比方法一慢，但是制作出来的打包文件不需要另外拷贝支持的模块(暂时不知道为什么docx模块没被正常包含，还是需要手动拷贝)
