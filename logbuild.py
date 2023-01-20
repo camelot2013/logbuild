@@ -2,11 +2,11 @@
 
 
 from WorkLogXls import *
-from EpibolyWorkTotalOnSystem import *
+from EpibolyWorkTotalOnSystem import EpibolyWorkTotalOnSystem
 from WeekLog import create_weeklog
 from MonthLog import creat_month_log
-from SeasonLog import create_season_log
-from CorpSeasonLog import create_corp_season_log
+from SeasonLog import PersonSeasonLog
+from CorpSeasonLog import CorpSeasonLog
 import traceback
 from mainFaceWithRcc import Ui_MainWindow  # 带资源文件的ui
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
@@ -202,8 +202,9 @@ class MainFace(QMainWindow):
                 self.work_log_xls.split_season()
                 self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
                 for index, season in enumerate(self.work_log_xls.seasons):
-                    season['logs'].sort(key=lambda elem: elem['demand_no'])
-                    create_season_log(season, self.epiboly_work, read_cfg())
+                    person_season_log = PersonSeasonLog(season, self.epiboly_work)
+                    person_season_log.init_document_head()
+                    person_season_log.create_season_log()
                     self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()
@@ -221,7 +222,9 @@ class MainFace(QMainWindow):
                 self.work_log_xls.split_season()
                 self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
                 for index, season in enumerate(self.work_log_xls.seasons):
-                    create_corp_season_log(season, read_cfg())
+                    corp_season_log = CorpSeasonLog(season)
+                    corp_season_log.init_document_head()
+                    corp_season_log.create_corp_season_log()
                     self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
 
             self.openBtn()

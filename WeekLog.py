@@ -4,22 +4,6 @@
 
 from WorkLogXls import *
 from WordStyleFunc import *
-from docx import Document
-from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_LINE_SPACING
-from docx.shared import Pt
-from docx.shared import RGBColor
-from docx.oxml.ns import qn
-from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from docx.shared import Cm  # 导入单位转换函数
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
-from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls
-
-
-def get_weeklog_filename(begin_date: str, end_date: str, person_name: str):
-    return '附录4人月外包服务人员个人周报-成都思瑞奇信息产业有限公司-{}({}-{}).docx'.format(person_name, begin_date, end_date)
 
 
 # 检查工作日志内容是否包含有效内容
@@ -212,4 +196,5 @@ def create_weeklog(work_log_week: list):
     text2 = '注：文件命名规则为“人月外包服务人员个人周报-所属公司-姓名(YYYYMMDD-YYYYMMDD)”'
     p.add_run(text2, style='text')
     log_out_dir = get_out_dir()
-    doc1.save(os.path.join(log_out_dir, get_weeklog_filename(begin_date, end_date, person_name)))
+
+    doc1.save(os.path.join(log_out_dir, f'附录4人月外包服务人员个人周报-成都思瑞奇信息产业有限公司-{person_name}({begin_date}-{end_date}).docx'))

@@ -14,6 +14,11 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_LINE_SPACING
 from docx.shared import RGBColor
 from typing import AnyStr
+from docx.shared import Cm  # 导入单位转换函数
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsdecls
 
 
 def set_cell_border(cell, **kwargs):
@@ -103,66 +108,9 @@ def merge(table: Table, row1, col1, row2, col2):
         table.rows[row1].cells[col1].merge(table.rows[row2].cells[col2])
 
 
-def __sort_key_demand(elem: dict):
-    return elem['demand_no']
-
-
-def init_season_doc(person_name: AnyStr, year_num: AnyStr, season_num: AnyStr, company_name: AnyStr) -> Document:
-    # 新建空白文档
-    doc1 = Document()
-
-    # 设置中文内容的字体的方法
-    head1_style = doc1.styles.add_style('Head1', WD_STYLE_TYPE.CHARACTER)
-    head1_style.font.name = '黑体'
-    head1_style.font.size = Pt(16)
-    head1_style.font.color.rgb = RGBColor(0, 0, 0)
-    head1_style.font.bold = False
-    head1_style.font.element.rPr.rFonts.set(qn('w:eastAsia'), '黑体')
-
-    head2_style = doc1.styles.add_style('Head2', WD_STYLE_TYPE.CHARACTER)
-    head2_style.font.name = '华文中宋'
-    head2_style.font.size = Pt(18)
-    head2_style.font.color.rgb = RGBColor(0, 0, 0)
-    head2_style.font.bold = False
-    head2_style.font.element.rPr.rFonts.set(qn('w:eastAsia'), '华文中宋')
-
-    head3_style = doc1.styles.add_style('Head3', WD_STYLE_TYPE.CHARACTER)
-    head3_style.font.name = '仿宋'
-    head3_style.font.size = Pt(14)
-    head3_style.font.color.rgb = RGBColor(0, 0, 0)
-    head3_style.font.bold = False
-    head3_style.font.element.rPr.rFonts.set(qn('w:eastAsia'), '仿宋')
-
-    table_content_style = doc1.styles.add_style('table_content_style', WD_STYLE_TYPE.CHARACTER)
-    table_content_style.font.name = '仿宋'
-    table_content_style.font.size = Pt(14)
-    table_content_style.font.color.rgb = RGBColor(0, 0, 0)
-    table_content_style.font.bold = False
-    table_content_style.font.element.rPr.rFonts.set(qn('w:eastAsia'), '仿宋')
-
-    p = doc1.add_heading(level=2)
-    p.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-    run = p.add_run('附录5', style='Head1')
-    f = run.font
-    f.bold = False
-
-    p = doc1.add_heading(level=2)
-    p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    run = p.add_run('人月外包服务人员季度工作情况报告', style='Head2')
-    f = run.font
-    f.bold = False
-
-    p = doc1.add_paragraph()
-    p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-    text1 = "({}年{}季度)".format(year_num, season_num)
-    p.add_run(text1, style='Head3')
-
-    p = doc1.add_paragraph()
-    p.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-    text1 = "姓名：{}        公司名称：{}".format(person_name, company_name)
-    p.add_run(text1, style='Head3')
-    pformat = p.paragraph_format
-    paragraph_format = {'space_before': 0, 'space_after': 0, 'line_spacing_rule': WD_LINE_SPACING.SINGLE}
-    set_paragraph_format(pformat, paragraph_format=paragraph_format)
-
-    return doc1
+def set_cell_font(cell, **kwargs):
+    paragraphs = cell.paragraphs
+    for paragraph in paragraphs:
+        for run in paragraph.runs:
+            font = run.font
+            set_font_format(font, **kwargs)

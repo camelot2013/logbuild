@@ -6,80 +6,86 @@ import random
 from WorkLogXls import *
 from ExcelStyleFunc import *
 from docx.shared import Pt
-import xlwt
+from typing import AnyStr
 
 
 def head1_style():
     style = xlwt.XFStyle()  # 初始化样式
-    borders = thin_border()
-    font = xlwt.Font()  # 为样式创建字体
-    font.name = '宋体'
-    font.bold = True  # 黑体
+    font = __set_font('宋体', True, 20 * 16)
     font.colour_index = 2
-    # 字体大小，11为字号，20为衡量单位
-    font.height = 20 * 16
-    style.borders = borders
     style.font = font
+    borders = thin_border()
+    style.borders = borders
     alignment = xlwt.Alignment()  # Create Alignment
     alignment.horz = xlwt.Alignment.HORZ_CENTER  # May be: HORZ_GENERAL, HORZ_LEFT, HORZ_CENTER, HORZ_RIGHT, HORZ_FILLED, HORZ_JUSTIFIED, HORZ_CENTER_ACROSS_SEL, HORZ_DISTRIBUTED
     alignment.vert = xlwt.Alignment.VERT_CENTER  # May be: VERT_TOP, VERT_CENTER, VERT_BOTTOM, VERT_JUSTIFIED, VERT_DISTRIBUTED
     style.alignment = alignment  # Add Alignment to Style
-    # 设置背景颜色
-    pattern = xlwt.Pattern()
-    # 设置背景颜色的模式
-    pattern.pattern = xlwt.Pattern.SOLID_PATTERN
-    # 背景颜色
-    pattern.pattern_fore_colour = 40  # May be: 8 through 63. 0 = Black, 1 = White, 2 = Red, 3 = Green, 4 = Blue, 5 = Yellow, 6 = Magenta, 7 = Cyan, 16 = Maroon, 17 = Dark Green, 18 = Dark Blue, 19 = Dark Yellow , almost brown), 20 = Dark Magenta, 21 = Teal, 22 = Light Gray, 23 = Dark Gray, the list goes on...
+
+    pattern = __set_pattern(xlwt.Pattern.SOLID_PATTERN, 40)
     style.pattern = pattern
 
     return style
 
 
 def head2_style():
-    style = xlwt.XFStyle()  # 初始化样式
-    borders = thin_border()
-    font = xlwt.Font()  # 为样式创建字体
-    font.name = '宋体'
-    font.bold = True  # 黑体
-    # 字体大小，11为字号，20为衡量单位
-    font.height = 20 * 10
-    style.borders = borders
-    style.font = font
-    alignment = xlwt.Alignment()  # Create Alignment
-    alignment.horz = xlwt.Alignment.HORZ_CENTER  # May be: HORZ_GENERAL, HORZ_LEFT, HORZ_CENTER, HORZ_RIGHT, HORZ_FILLED, HORZ_JUSTIFIED, HORZ_CENTER_ACROSS_SEL, HORZ_DISTRIBUTED
-    alignment.vert = xlwt.Alignment.VERT_CENTER  # May be: VERT_TOP, VERT_CENTER, VERT_BOTTOM, VERT_JUSTIFIED, VERT_DISTRIBUTED
-    # 设置自动换行
-    alignment.wrap = 1
-    style.alignment = alignment  # Add Alignment to Style
-    # 设置背景颜色
-    pattern = xlwt.Pattern()
-    # 设置背景颜色的模式
-    pattern.pattern = xlwt.Pattern.SOLID_PATTERN
-    # 背景颜色
-    pattern.pattern_fore_colour = 5     # May be: 8 through 63. 0 = Black, 1 = White, 2 = Red, 3 = Green, 4 = Blue, 5 = Yellow, 6 = Magenta, 7 = Cyan, 16 = Maroon, 17 = Dark Green, 18 = Dark Blue, 19 = Dark Yellow , almost brown), 20 = Dark Magenta, 21 = Teal, 22 = Light Gray, 23 = Dark Gray, the list goes on...
+    style = set_style('宋体', True, 20*10, xlwt.Alignment.HORZ_CENTER, xlwt.Alignment.VERT_CENTER, 1)
+    pattern = __set_pattern(xlwt.Pattern.SOLID_PATTERN, 5)
     style.pattern = pattern
 
     return style
 
 
 def body_style():
+    return set_style('宋体', False, 20*10, xlwt.Alignment.HORZ_CENTER, xlwt.Alignment.VERT_CENTER, 1)
+
+
+def set_style(font_name: AnyStr, font_bold: bool, font_height: int, horz: int, vert: int, wrap: int):
     style = xlwt.XFStyle()  # 初始化样式
-    borders = thin_border()
-    font = xlwt.Font()  # 为样式创建字体
-    font.name = '宋体'
-    font.bold = False  # 黑体
-    # 字体大小，11为字号，20为衡量单位
-    font.height = 20 * 10
-    style.borders = borders
+    font = __set_font(font_name, font_bold, font_height)
     style.font = font
-    alignment = xlwt.Alignment()  # Create Alignment
-    alignment.horz = xlwt.Alignment.HORZ_CENTER  # May be: HORZ_GENERAL, HORZ_LEFT, HORZ_CENTER, HORZ_RIGHT, HORZ_FILLED, HORZ_JUSTIFIED, HORZ_CENTER_ACROSS_SEL, HORZ_DISTRIBUTED
-    alignment.vert = xlwt.Alignment.VERT_CENTER  # May be: VERT_TOP, VERT_CENTER, VERT_BOTTOM, VERT_JUSTIFIED, VERT_DISTRIBUTED
-    # 设置自动换行
-    alignment.wrap = 1
+
+    borders = thin_border()
+    style.borders = borders
+
+    alignment = __set_alignment(horz, vert, wrap)
     style.alignment = alignment  # Add Alignment to Style
 
     return style
+
+
+def __set_font(font_name: AnyStr, font_bold: bool, font_height: int):
+    # 为样式创建字体
+    font = xlwt.Font()  # 为样式创建字体
+    font.name = font_name
+    font.bold = font_bold  # 黑体
+    # 字体大小，11为字号，20为衡量单位
+    font.height = font_height
+
+    return font
+
+
+def __set_alignment(horz: int, vert: int, wrap: int):
+    alignment = xlwt.Alignment()  # Create Alignment
+    # May be: HORZ_GENERAL, HORZ_LEFT, HORZ_CENTER, HORZ_RIGHT, HORZ_FILLED, HORZ_JUSTIFIED, HORZ_CENTER_ACROSS_SEL, HORZ_DISTRIBUTED
+    alignment.horz = horz
+    # May be: VERT_TOP, VERT_CENTER, VERT_BOTTOM, VERT_JUSTIFIED, VERT_DISTRIBUTED
+    alignment.vert = vert
+    # 设置自动换行
+    alignment.wrap = wrap
+
+    return alignment
+
+
+def __set_pattern(pattern: int, pattern_fore_colour: int):
+    # 设置背景颜色
+    p = xlwt.Pattern()
+    # 设置背景颜色的模式
+    p.pattern = pattern
+    # 背景颜色
+    # May be: 8 through 63. 0 = Black, 1 = White, 2 = Red, 3 = Green, 4 = Blue, 5 = Yellow, 6 = Magenta, 7 = Cyan, 16 = Maroon, 17 = Dark Green, 18 = Dark Blue, 19 = Dark Yellow , almost brown), 20 = Dark Magenta, 21 = Teal, 22 = Light Gray, 23 = Dark Gray, the list goes on...
+    p.pattern_fore_colour = pattern_fore_colour
+
+    return p
 
 
 def get_code_lines(workload: int):
@@ -90,7 +96,6 @@ def get_code_lines(workload: int):
 
 
 def get_work_content(demand_no: str, logs: list):
-    work_content = ''
     demand_name = ''
     workload = 0
     tmp_content = []
@@ -128,7 +133,7 @@ def creat_month_log(month_log: dict):
     sh.write_merge(0, 0, 0, 13, '人月开发人员工作量统计表-{}年{}月'.format(year_str, mon_str), head1_style())
     sh.write_merge(1, 2, 0, 0, '序号', head2_style())
     style1 = head2_style()
-    style1.font.colour_index =2
+    style1.font.colour_index = 2
     sh.write_merge(1, 2, 1, 1, '年月', style1)
     sh.write_merge(1, 2, 2, 2, '公司', head2_style())
     sh.write_merge(1, 2, 3, 3, '姓名', head2_style())
@@ -147,7 +152,6 @@ def creat_month_log(month_log: dict):
     tot_workload = 0
     base_row_idx = 3
     for log in month_log['logs']:
-        work_content = log['work_content']
         tot_workload = tot_workload + log['workload']
         if tmp_demand_no != log['demand_no']:
             tmp_demand_no = log['demand_no']
