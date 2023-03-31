@@ -134,12 +134,15 @@ class PersonSeasonLog(SeasonLog):
                 table.rows[demand_idx].cells[3].text = log['manager_name']
                 log_contents, workload = self.get_season_work_content(log['demand_no'])
                 for idx, log_content in enumerate(log_contents):
-                    p = table.rows[demand_idx].cells[2].add_paragraph(style='List Bullet')
+                    p = None
                     if idx == 0:
                         p = table.rows[demand_idx].cells[2].paragraphs[0]
                         p.style = 'List Bullet'
+                    else:
+                        p = table.rows[demand_idx].cells[2].add_paragraph(style='List Bullet')
 
                     run = p.add_run(log_content)
+
                     f = run.font
                     set_font_format(f, font_format={'size': 10.5, 'name': '仿宋'})
                 if workload % 8 == 0:
