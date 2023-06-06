@@ -145,12 +145,8 @@ class PersonSeasonLog(SeasonLog):
 
                     f = run.font
                     set_font_format(f, font_format={'size': 10.5, 'name': '仿宋'})
-                if workload % 8 == 0:
-                    cast_tot = '以上工作累计花了{}个工作日。'.format(workload // 8)
-                else:
-                    cast_tot = '以上工作累计花了{}个工作日。'.format(workload / 8)
                 p = table.rows[demand_idx].cells[2].add_paragraph(style='List Continue')
-                run = p.add_run(cast_tot)
+                run = p.add_run(f'以上工作累计花了{workload / 8 if workload % 8 else workload // 8}个工作日。')
                 f = run.font
                 set_font_format(f, font_format={'size': 10.5, 'name': '仿宋'})
 
