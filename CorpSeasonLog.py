@@ -44,20 +44,25 @@ class CorpSeasonLog(SeasonLog):
                 table.add_row()
                 table.rows[demand_idx].cells[2].text = '[' + log['month_request_no'] + ']' + log['demand_name']
                 _, workload = self.get_season_work_content(log['demand_no'])
-                table.rows[demand_idx].cells[3].text = '{}人天；'.format(workload // 8)
+                if workload % 8 == 0:
+                    table.rows[demand_idx].cells[3].text = '{}人天；'.format(workload // 8)
+                else:
+                    table.rows[demand_idx].cells[3].text = '{}人天；'.format(workload / 8)
                 demand_idx = demand_idx + 1
 
         table.add_row()
         table.rows[demand_idx].cells[1].text = '合计'
         if tot_workload % 8 == 0:
             table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload // 8)
+            table.rows[1].cells[1].text = '综合前端系统（{}人天）'.format(tot_workload // 8)
         else:
             table.rows[demand_idx].cells[3].text = '{}人天；'.format(tot_workload / 8)
+            table.rows[1].cells[1].text = '综合前端系统（{}人天）'.format(tot_workload / 8)
 
         table.rows[1].cells[0].text = '{}:{}岗{}（成都）'.format(self.__person_name,
                                                             self.cfg['person_info'].get(self.__person_name).get('station'),
                                                             self.cfg['person_info'].get(self.__person_name).get('level'))
-        table.rows[1].cells[1].text = '综合前端系统（{}人天）'.format(tot_workload // 8)
+
 
         for row_idx in range(table.rows.__len__()):
             cells = table.row_cells(row_idx)
