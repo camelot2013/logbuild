@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>工作报告生成器</string>
+   <string>工作报告生成器-2.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="appico.qrc">

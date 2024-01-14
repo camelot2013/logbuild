@@ -10,7 +10,6 @@ import json
 
 def read_cfg():
     file_name = 'person_list.json'
-    # current_path = os.path.split(os.path.realpath(__file__))[0]
     current_path = os.getcwd()
     file = os.path.join(current_path, file_name)
     with open(file, encoding='UTF-8') as fp:

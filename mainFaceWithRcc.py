@@ -120,7 +120,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u5de5\u4f5c\u62a5\u544a\u751f\u6210\u5668", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u5de5\u4f5c\u62a5\u544a\u751f\u6210\u5668-2.0", None))
         self.actionopen.setText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6587\u4ef6", None))
 #if QT_CONFIG(tooltip)
         self.actionopen.setToolTip(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u6587\u4ef6", None))

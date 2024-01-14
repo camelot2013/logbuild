@@ -74,7 +74,7 @@ class MainFace(QMainWindow):
         self.ui.btn_WeekLog.clicked.connect(self.btn_weeklog_thread_click)
         self.ui.btn_MonthLog.clicked.connect(self.btn_monthlog_click)
         self.ui.btn_SeasonLog.clicked.connect(self.btn_seasonlog_click)
-        self.ui.btn_CorpSeasonLog.clicked.connect(self.btn_corpseasonlog_click)
+        self.ui.btn_CorpSeasonLog.clicked.connect(self.btn_corpseasonlog_thread_click)
         self.ui.comboBox.currentIndexChanged.connect(self.selectionchange1)
 
     def btn_file_epiboly_click(self):
@@ -83,7 +83,7 @@ class MainFace(QMainWindow):
         if file_path:
             self.ui.lineEdit_FilePath_EpibolyTotal.setText(file_path[0])
             self.epiboly_work = EpibolyWorkTotalOnSystem()
-            self.epiboly_work.read_xls(file_path[0])
+            self.epiboly_work.read_xls(file_path[0], self.ui.comboBox.currentText())
 
     def btn_file_click(self):
         file_dialog = QFileDialog(self)
@@ -211,25 +211,24 @@ class MainFace(QMainWindow):
         except Exception:
             QMessageBox.critical(self, '错误', traceback.format_exc())
 
+    def btn_corpseasonlog_thread_click(self):
+        self.ui.progressBar.setValue(0)
+        thread = Thread(target=self.btn_corpseasonlog_click)
+        thread.start()
+
     def btn_corpseasonlog_click(self):
-        if not self.work_log_xls:
-            QMessageBox.critical(self, '错误', '请先选择日志详情导出文件')
+        if not self.epiboly_work:
+            self.progress.alert_error_message.emit('请先选择按系统统计外包工作量导出文件')
             return
         self.closeBtn()
         # noinspection PyBroadException
         try:
-            if self.work_log_xls:
-                self.work_log_xls.split_season()
-                self.setProgressValue(self.work_log_xls.seasons.__len__(), 0)
-                for index, season in enumerate(self.work_log_xls.seasons):
-                    corp_season_log = CorpSeasonLog(season)
-                    corp_season_log.init_document_head()
-                    corp_season_log.create_corp_season_log()
-                    self.setProgressValue(self.work_log_xls.seasons.__len__(), index + 1)
-
+            corp_season_log = CorpSeasonLog(self.epiboly_work.year_num, self.epiboly_work.season_num, self.epiboly_work.corp_name)
+            corp_season_log.create_corp_season_log(self.epiboly_work.season_work)
+            self.progress.alert_info_message.emit('公司季报生成完毕')
             self.openBtn()
         except Exception:
-            QMessageBox.critical(self, '错误', traceback.format_exc())
+            self.progress.alert_error_message.emit(traceback.format_exc())
 
 
 if __name__ == '__main__':
